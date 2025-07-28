@@ -1,0 +1,5 @@
+@reference "../../app/globals.css";
+
+.BottomMenu{
+    @apply flex items-center h-20 justify-center w-full bg-white rounded-t-lg fixed bottom-0 shadow-lg z-50
+}
