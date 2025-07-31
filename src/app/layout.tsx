@@ -5,6 +5,7 @@ import {HeroProviders} from "@/components/HeroProvider"
 import { Toaster } from "sonner";
 import { BottomBar } from "@/components/BottomBar/BottomBar";
 
+
 const kanit = Kanit({
   variable: "--font-kanit",
   subsets: ["latin"],
