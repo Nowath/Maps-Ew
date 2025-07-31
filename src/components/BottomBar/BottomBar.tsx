@@ -3,13 +3,14 @@ import React from 'react'
 import {Tabs, Tab} from "@heroui/react";
 import { useRouter, usePathname } from 'next/navigation';
 import style from './bottombar.module.css';
+import Image from 'next/image';
 
 export function BottomBar() {
     const router = useRouter();
     const pathname = usePathname();
 
-    const handleSelectionChange = (key:any) => {
-        router.push(key);
+    const handleSelectionChange = (key: React.Key) => {
+        router.push(key as string);
     };
 
     return (
@@ -30,22 +31,22 @@ export function BottomBar() {
                     >
                         <Tab key="/" className='' title={
                             <div className=''>
-                                <img src="/icon/map.png" alt="" width={25} />
+                                <Image src="/icon/map.png" alt="map" width={25} height={25} className=' object-contain' />
                             </div>
                         } />
                         <Tab key="/community" className='' title={
                             <div className=''>
-                                <img src="/icon/group.png" alt="" width={25} />
+                                <Image src="/icon/group.png" alt="group" width={25} height={25} className=' object-contain' />
                             </div>
                         } />
                         <Tab key="/chat" className='' title={
                             <div className=''>
-                                <img src="/icon/chat.png" alt="" width={25} />
+                                <Image src="/icon/chat.png" alt="chat" width={25} height={25} className=' object-contain' />
                             </div>
                         } />
                         <Tab key="/setting" className='' title={
                             <div className=''>
-                                <img src="/icon/setting.png" alt="" width={25} />
+                                <Image src="/icon/setting.png" alt="setting" width={25} height={25} className=' object-contain' />
                             </div>
                         } />
                     </Tabs>

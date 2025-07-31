@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Input, Chip, Button } from '@heroui/react'
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Posts } from '@/containers/Posts';
@@ -19,10 +19,10 @@ export interface PostsData {
 }
 
 export default function Page({ data }: { data: PostsData[] }) {
-    const [datas, setDatas] = useState<PostsData[]>()
-    useEffect(() => {
-        setDatas(data)
-    },[])
+    // const [datas, setDatas] = useState<PostsData[]>()
+    // useEffect(() => {
+    //     setDatas(data)
+    // },[])
     return (
         <div className='w-full h-screen relative'>
             <div className=' fixed bottom-24 right-5 z-50'>
@@ -44,7 +44,7 @@ export default function Page({ data }: { data: PostsData[] }) {
                     <Chip variant='flat' color='primary'>โหมดสร้างสรรค์</Chip>
                 </div>
                 <div className='w-full flex flex-col gap-4'>
-                    <Posts data={datas || []}/>
+                    <Posts data={data || []}/>
                 </div>
             </div>
         </div>

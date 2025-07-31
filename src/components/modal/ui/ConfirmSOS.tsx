@@ -5,11 +5,7 @@ import {
     ModalContent,
     ModalHeader,
     ModalBody,
-    ModalFooter
 } from "@heroui/modal";
-import {Textarea} from "@heroui/react";
-import { useModal } from "@/components/modal/action/modal";
-import {Form} from "@heroui/form";
 
 interface RewardModalProps {
     isOpen: boolean;

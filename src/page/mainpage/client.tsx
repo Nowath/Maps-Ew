@@ -6,6 +6,7 @@ import { SiOrganicmaps } from "react-icons/si";
 import { BiSolidSend } from "react-icons/bi";
 import { useModal } from "@/components/modal/action/modal"
 import { ConfirmSOS } from '@/components/modal/ui/ConfirmSOS';
+import Image from 'next/image';
 
 const MapWithNoSSR = dynamic(() => import('@/components/map/mainmap').then(mod => ({ default: mod.MainMap })), {
     ssr: false
@@ -20,7 +21,7 @@ export default function Page() {
             <MapWithNoSSR />
             <div className=' absolute z-10 top-0 right-0 p-2'>
                 <Button isIconOnly onPress={ConfirmSOSModal.openModal} variant='shadow' color='warning' radius='full' className='w-14 h-14'>
-                    <img width={36} src="/icon/siren.png" alt="" />
+                    <Image width={36} height={36} className=' object-contain' src="/icon/siren.png" alt="siren" />
                 </Button>
             </div>
             <div className=' absolute z-10 bottom-22 right-0 w-full flex justify-center items-center'>

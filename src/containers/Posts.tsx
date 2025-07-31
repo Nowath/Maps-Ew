@@ -37,7 +37,7 @@ export function Posts( {data} : {data: PostsData[]} ) {
                                     </div>
                                     {item.image !== "" && (
                                         <div className='w-full'>
-                                            <Image src={item.image} width={450} height={200} className=" object-contain" />
+                                            <Image src={item.image} alt='postImg' width={450} height={200} className=" object-contain" />
                                         </div>
                                     )}
                                 </div>
