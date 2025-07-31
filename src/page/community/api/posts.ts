@@ -1,9 +1,8 @@
 "use server"
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
+import { createClient } from '@/utils/supabase/server';
 
 export async function getPosts(){
-    const supabase = createClient(cookies())
+    const supabase = await createClient();
 
     const { data: posts, error } = await supabase
     .from('posts')
