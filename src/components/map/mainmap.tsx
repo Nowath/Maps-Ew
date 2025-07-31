@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, useMap, Marker, Popup, CircleMarker } from 're
 import L from 'leaflet';
 
 const myCustomIcon = L.icon({
-    iconUrl: './icon/marker.png',
+    iconUrl: '/icon/marker.png',
     iconSize: [50, 50],
     popupAnchor: [-3, -76]
 });
