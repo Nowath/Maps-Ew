@@ -18,7 +18,7 @@ export interface PostsData {
     star: number;
 }
 
-export default function Page() {
+export default function Page({ data }: { data: PostsData[] }) {
     // const [datas, setDatas] = useState<PostsData[]>()
     // useEffect(() => {
     //     setDatas(data)
@@ -43,9 +43,9 @@ export default function Page() {
                     <Chip variant='flat' color='warning'>โหมดระวังภัย</Chip>
                     <Chip variant='flat' color='primary'>โหมดสร้างสรรค์</Chip>
                 </div>
-                {/* <div className='w-full flex flex-col gap-4'>
+                <div className='w-full flex flex-col gap-4'>
                     <Posts data={data || []} />
-                </div> */}
+                </div>
             </div>
         </div>
     )
