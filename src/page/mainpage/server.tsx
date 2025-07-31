@@ -1,12 +1,13 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import { Loading } from '@/components/loading/loading'
 
 const Client = dynamic(() => import('./client'))
 
 export default function Server() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading/>}>
             <Client />
         </Suspense>
     )
