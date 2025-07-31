@@ -1,16 +1,17 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import { usePosts } from './api/posts'
+// eslint-disable-next-line
+import { getPosts } from './api/posts'
 import { Loading } from '@/components/loading/loading'
 
 const Client = dynamic(() => import('./client'))
 
 export default async function Server() {
-    const {posts} = await usePosts()
+    const { posts } = await getPosts()
 
     return (
-        <Suspense fallback={<Loading/>}>
+        <Suspense fallback={<Loading />}>
             <Client data={posts ?? []} />
         </Suspense>
     )
