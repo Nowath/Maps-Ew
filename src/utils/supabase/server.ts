@@ -1,4 +1,3 @@
-
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -12,13 +11,24 @@ export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
     {
       cookies: {
         getAll() {
-        //@ts-ignore
-          return cookieStore.getAll()
+          //@ts-ignore
+          return cookieStore.getAll().map(cookie => ({
+            name: cookie.name,
+            value: cookie.value
+          }));
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: CookieOptions }[]) {
           try {
-            //@ts-ignore
-            cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
+            cookiesToSet.forEach(({ name, value, options = {} }) => {
+              //@ts-ignore
+              cookieStore.set(name, value, {
+                ...options,
+                httpOnly: options.httpOnly ?? true,
+                secure: options.secure ?? process.env.NODE_ENV === 'production',
+                sameSite: options.sameSite ?? 'lax',
+                path: options.path ?? '/',
+              });
+            });
           } catch {
             // The `setAll` method was called from a Server Component.
             // This can be ignored if you have middleware refreshing
