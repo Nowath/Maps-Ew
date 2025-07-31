@@ -1,13 +1,12 @@
 'use client'
 
-import React from 'react'
-import { Input, Button, Chip, Avatar, Image } from '@heroui/react'
-import {Card, CardHeader, CardBody, CardFooter} from "@heroui/card";
+import React, { useState, useEffect } from 'react'
+import { Input, Chip, Button } from '@heroui/react'
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { FaLocationDot } from "react-icons/fa6";
-import dayjs from 'dayjs'
+import { Posts } from '@/containers/Posts';
+import { FaPlus } from 'react-icons/fa6';
 
-interface PostsData {
+export interface PostsData {
     id: number
     created_at: string
     name: string
@@ -16,12 +15,20 @@ interface PostsData {
     address: string
     subAddress: number[]
     Tags: string[]
+    star: number;
 }
 
 export default function Page({ data }: { data: PostsData[] }) {
+    const [datas, setDatas] = useState<PostsData[]>()
+    useEffect(() => {
+        setDatas(data)
+    },[])
     return (
         <div className='w-full h-screen relative'>
-            <div className=' p-4 h-screen pb-30 overflow-auto'>
+            <div className=' fixed bottom-24 right-5 z-50'>
+                <Button isIconOnly color="success" variant='shadow' radius='full' className=' w-14 h-14'><FaPlus color='white' size={20}/></Button>
+            </div>
+            <div className=' p-4 h-screen pb-40 overflow-auto'>
                 <div>
                     <Input
                         startContent={<FaMagnifyingGlass size={20} />}
@@ -37,48 +44,7 @@ export default function Page({ data }: { data: PostsData[] }) {
                     <Chip variant='flat' color='primary'>โหมดสร้างสรรค์</Chip>
                 </div>
                 <div className='w-full flex flex-col gap-4'>
-                    {data && data.length > 0 ? (
-                        data.map((item) => (
-                            <Card key={item.id}>
-                                <CardHeader>
-                                    <div className=' flex gap-2 items-center'>
-                                        <Avatar showFallback />
-                                        <div className='flex flex-col'>
-                                            <span>{item.name}</span>
-                                            <span className='text-gray-400 text-xs'>{dayjs(item.created_at).format("DD/MM/YYYY")}</span>
-                                        </div>
-                                    </div>
-                                </CardHeader>
-                                <CardBody>
-                                    <div className='flex flex-col gap-1'>
-                                        <div>
-                                            {item.title}
-                                        </div>
-                                        {item.image !== "" && (
-                                            <div className='w-full'>
-                                                <Image src={item.image} width={450} height={200} className=" object-contain" />
-                                            </div>
-                                        )}
-                                    </div>
-                                </CardBody>
-                                <CardFooter>
-                                    <div className='w-full flex justify-between'>
-                                        <div className='flex gap-1 items-center'>
-                                            {item.Tags.map((tag,index) => (
-                                                <Chip key={index} size='sm' variant='flat' color={tag === "โหมดสร้างสรรค์" ? `success`: tag === "โหมดกิจกรรม" ? 'primary' : "danger"}>{tag}</Chip>
-                                            ))}
-                                        </div>
-                                        <div className='flex items-center gap-1'>
-                                            <FaLocationDot color='red' size={20} />
-                                            <span>{item.address}</span>
-                                        </div>
-                                    </div>
-                                </CardFooter>
-                            </Card>
-                        ))
-                    ) : (
-                        <div>ไม่พบข้อมูล</div>
-                    )}
+                    <Posts data={datas || []}/>
                 </div>
             </div>
         </div>

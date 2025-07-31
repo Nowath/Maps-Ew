@@ -7,7 +7,7 @@ export async function usePosts(){
     //@ts-ignore
     const supabase = createClient(cookieStore)
 
-    let { data: posts, error } = await supabase
+    const { data: posts, error } = await supabase
     .from('posts')
     .select()
 
