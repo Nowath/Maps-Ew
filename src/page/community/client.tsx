@@ -18,7 +18,7 @@ export interface PostsData {
     star: number;
 }
 
-export default function Page({ data }: { data: PostsData[] }) {
+export default function Page() {
     // const [datas, setDatas] = useState<PostsData[]>()
     // useEffect(() => {
     //     setDatas(data)
@@ -26,7 +26,7 @@ export default function Page({ data }: { data: PostsData[] }) {
     return (
         <div className='w-full h-screen relative'>
             <div className=' fixed bottom-24 right-5 z-50'>
-                <Button isIconOnly color="success" variant='shadow' radius='full' className=' w-14 h-14'><FaPlus color='white' size={20}/></Button>
+                <Button isIconOnly color="success" variant='shadow' radius='full' className=' w-14 h-14'><FaPlus color='white' size={20} /></Button>
             </div>
             <div className=' p-4 h-screen pb-40 overflow-auto'>
                 <div>
@@ -43,9 +43,9 @@ export default function Page({ data }: { data: PostsData[] }) {
                     <Chip variant='flat' color='warning'>โหมดระวังภัย</Chip>
                     <Chip variant='flat' color='primary'>โหมดสร้างสรรค์</Chip>
                 </div>
-                <div className='w-full flex flex-col gap-4'>
-                    <Posts data={data || []}/>
-                </div>
+                {/* <div className='w-full flex flex-col gap-4'>
+                    <Posts data={data || []} />
+                </div> */}
             </div>
         </div>
     )
