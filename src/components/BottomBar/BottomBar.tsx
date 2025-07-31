@@ -38,12 +38,12 @@ export function BottomBar() {
                                 <img src="/icon/group.png" alt="" width={25} />
                             </div>
                         } />
-                        <Tab key="/community" className=' ' title={
+                        <Tab key="/chat" className='' title={
                             <div className=''>
                                 <img src="/icon/chat.png" alt="" width={25} />
                             </div>
                         } />
-                        <Tab key="/community" className=' ' title={
+                        <Tab key="/setting" className='' title={
                             <div className=''>
                                 <img src="/icon/setting.png" alt="" width={25} />
                             </div>

@@ -11,7 +11,7 @@ export default async function Server() {
 
     return (
         <Suspense fallback={<Loading/>}>
-            <Client data={posts ?? []} />
+            <Client />
         </Suspense>
     )
 }

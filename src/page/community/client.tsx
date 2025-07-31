@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Chip, Button } from '@heroui/react'
 import { FaMagnifyingGlass } from "react-icons/fa6";
-import { Posts } from '@/containers/Posts';
+// import { Posts } from '@/containers/Posts';
 import { FaPlus } from 'react-icons/fa6';
 
 export interface PostsData {
@@ -18,11 +18,11 @@ export interface PostsData {
     star: number;
 }
 
-export default function Page({ data }: { data: PostsData[] }) {
-    const [datas, setDatas] = useState<PostsData[]>()
-    useEffect(() => {
-        setDatas(data)
-    },[])
+export default function Page() {
+    // const [datas, setDatas] = useState<PostsData[]>()
+    // useEffect(() => {
+    //     setDatas(data)
+    // },[])
     return (
         <div className='w-full h-screen relative'>
             <div className=' fixed bottom-24 right-5 z-50'>
@@ -43,9 +43,9 @@ export default function Page({ data }: { data: PostsData[] }) {
                     <Chip variant='flat' color='warning'>โหมดระวังภัย</Chip>
                     <Chip variant='flat' color='primary'>โหมดสร้างสรรค์</Chip>
                 </div>
-                <div className='w-full flex flex-col gap-4'>
+                {/* <div className='w-full flex flex-col gap-4'>
                     <Posts data={datas || []}/>
-                </div>
+                </div> */}
             </div>
         </div>
     )
