@@ -12,6 +12,7 @@
     "@heroui/avatar": "^2.2.20",
     "@heroui/button": "^2.2.23",
     "@heroui/card": "^2.2.23",
+    "@heroui/form": "^2.1.24",
     "@heroui/input": "^2.4.24",
     "@heroui/react": "^2.8.1",
     "@heroui/tabs": "^2.2.20",

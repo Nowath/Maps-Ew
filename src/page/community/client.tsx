@@ -5,6 +5,8 @@ import { Input, Chip, Button } from '@heroui/react'
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Posts } from '@/containers/Posts';
 import { FaPlus } from 'react-icons/fa6';
+import { useModal } from '@/components/modal/action/modal';
+import { AddPosts } from '@/components/modal/ui/AddPosts';
 
 export interface PostsData {
     id: number
@@ -23,10 +25,12 @@ export default function Page({ data }: { data: PostsData[] }) {
     // useEffect(() => {
     //     setDatas(data)
     // },[])
+    const AddPost = useModal()
     return (
         <div className='w-full h-screen relative'>
+            <AddPosts isOpen={AddPost.isOpen} onClose={AddPost.closeModal} />
             <div className=' fixed bottom-24 right-5 z-50'>
-                <Button isIconOnly color="success" variant='shadow' radius='full' className=' w-14 h-14'><FaPlus color='white' size={20} /></Button>
+                <Button onPress={AddPost.openModal} isIconOnly color="success" variant='shadow' radius='full' className=' w-14 h-14'><FaPlus color='white' size={20} /></Button>
             </div>
             <div className=' p-4 h-screen pb-40 overflow-auto'>
                 <div>

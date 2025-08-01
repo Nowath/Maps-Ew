@@ -1,13 +1,12 @@
 "use client"
 import React from 'react'
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, Circle } from 'react-leaflet'
 import L from 'leaflet';
 
 const myCustomIcon = L.icon({
     iconUrl: '/icon/marker.png',
     iconSize: [50, 50],
-    popupAnchor: [-3, -76]
 });
 
 const redOptions = { color: 'red' }
@@ -27,18 +26,18 @@ export function MainMap() {
                 />
                 <Marker position={bangkokCenter} icon={myCustomIcon}>
                     <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
+                        ที่อยู่ปัจจุบัน
                     </Popup>
                 </Marker>
-                <CircleMarker center={RedZone1} pathOptions={redOptions} radius={70}>
+                <Circle center={RedZone1} pathOptions={redOptions} radius={70}>
                     <Popup>โซนอันตราย</Popup>
-                </CircleMarker>
-                <CircleMarker center={RedZone2} pathOptions={redOptions} radius={40}>
+                </Circle>
+                <Circle center={RedZone2} pathOptions={redOptions} radius={40}>
                     <Popup>โซนอันตราย</Popup>
-                </CircleMarker>
-                <CircleMarker center={RedZone3} pathOptions={redOptions} radius={70}>
+                </Circle>
+                <Circle center={RedZone3} pathOptions={redOptions} radius={70}>
                     <Popup>โซนอันตราย</Popup>
-                </CircleMarker>
+                </Circle>
             </MapContainer>
         </>
     )
