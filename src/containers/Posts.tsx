@@ -11,7 +11,7 @@ import { StarReview } from '@/components/StarReview/StarReview';
 
 export function Posts( {data} : {data: PostsData[]} ) {
     return (
-            <div>
+            
                 {data && data.length > 0 ? (
                     data.map((item) => (
                         <Card key={item.id}
@@ -62,6 +62,6 @@ export function Posts( {data} : {data: PostsData[]} ) {
                 ):(
                     <Loading />
                 )}
-            </div>
+            
     )
 }
