@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, {useEffect} from 'react'
 import { Input, Chip, Button } from '@heroui/react'
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Posts } from '@/containers/Posts';

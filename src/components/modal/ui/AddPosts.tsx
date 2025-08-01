@@ -12,6 +12,8 @@ import { Form } from "@heroui/form";
 import type {SelectedItems, SharedSelection} from "@heroui/react";
 import {Select, SelectItem, Avatar, Chip} from "@heroui/react";
 import { useState } from "react";
+import { IoIosStarOutline, IoIosStar } from "react-icons/io"
+import { createPost } from "@/page/community/api/posts";
 
 interface AddPost {
     isOpen: boolean;
@@ -32,6 +34,10 @@ export interface PostInterface {
 
 export function AddPosts({ isOpen, onClose }: AddPost) {
     const [selectedModes, setSelectedModes] = useState<Set<string>>(new Set());
+    const [rating, setRating] = useState<number>(0);
+    const [hoveredStar, setHoveredStar] = useState<number>(0);
+    const [imageError, setImageError] = useState<string>("");
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const convertFileToBase64 = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {
@@ -39,7 +45,6 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
             reader.readAsDataURL(file);
             reader.onload = () => {
                 const result = reader.result as string;
-                // Remove the data:image/jpeg;base64, prefix to get only base64 string
                 const base64 = result.split(',')[1];
                 resolve(base64);
             };
@@ -47,8 +52,28 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
         });
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const maxSize = 8 * 1024 * 1024;
+            if (file.size > maxSize) {
+                setImageError("รูปภาพต้องมีขนาดไม่เกิน 8MB");
+
+                e.target.value = "";
+            } else {
+                setImageError("");
+            }
+        }
+    };
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        
+        if (imageError) {
+            return;
+        }
+
+        setIsSubmitting(true);
         const formData = new FormData(e.currentTarget);
         
         try {
@@ -56,21 +81,39 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
             
             const imageFile = formData.get('image') as File;
             let fileBase64 = '';
+
+            const address = formData.get('address') as string;
             
             if (imageFile && imageFile.size > 0) {
+                const maxSize = 8 * 1024 * 1024; // 8MB
+                if (imageFile.size > maxSize) {
+                    setImageError("รูปภาพต้องมีขนาดไม่เกิน 8MB");
+                    setIsSubmitting(false);
+                    return;
+                }
                 fileBase64 = await convertFileToBase64(imageFile);
             }
             const tagArray = Array.from(selectedModes);
 
-            const data = {
-                text: text,
-                file: `data:image/png;base64,${fileBase64}`,
-                tag: tagArray
+            const data= {
+                name: 'test',
+                title: text,
+                image: `data:image/png;base64,${fileBase64}`,
+                address: address,
+                Tags: tagArray,
+                star: rating,
+                subAddress: [200, 300]
             };
             
-            console.log(data);
+            await createPost(data);
+            window.location.reload();
+            onClose();
+            
         } catch (error) {
             console.error('Error processing form:', error);
+            alert('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -111,6 +154,47 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
                 return "default";
         }
     };
+
+    const handleStarClick = (starIndex: number) => {
+        setRating(starIndex);
+    };
+
+    const handleStarHover = (starIndex: number) => {
+        setHoveredStar(starIndex);
+    };
+
+    const handleStarLeave = () => {
+        setHoveredStar(0);
+    };
+
+    const StarRating = () => {
+        return (
+            <div className="flex flex-col gap-2">
+                <label className="text-sm font-medium text-foreground">ให้คะแนนรีวิว</label>
+                <div className="flex gap-1 items-center">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                            key={star}
+                            type="button"
+                            className="text-2xl transition-colors duration-200 hover:scale-110 transform"
+                            onClick={() => handleStarClick(star)}
+                            onMouseEnter={() => handleStarHover(star)}
+                            onMouseLeave={handleStarLeave}
+                        >
+                            {star <= (hoveredStar || rating) ? (
+                                <IoIosStar className="text-yellow-400" />
+                            ) : (
+                                <IoIosStarOutline className="text-gray-300" />
+                            )}
+                        </button>
+                    ))}
+                    <span className="ml-2 text-sm text-gray-600">
+                        {rating > 0 ? `${rating} ดาว` : 'ยังไม่ได้ให้คะแนน'}
+                    </span>
+                </div>
+            </div>
+        );
+    };
     
     return (
         <>
@@ -127,8 +211,29 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
                         <ModalHeader className="flex justify-center items-center">ยืนยันการกด SOS</ModalHeader>
                         <ModalBody className="w-full flex flex-col">
                             <Input name="text" isRequired type="text" variant="faded" label="กรอกข้อความ" labelPlacement="outside" placeholder="ข้อความ" />
-                            <Input name="image" isRequired type="file" variant="faded" label="ใส่รูปภาพประกอบ" labelPlacement="outside" accept="image/*" />
+                            
+                            <div className="flex flex-col gap-1">
+                                <Input 
+                                    name="image" 
+                                    isRequired 
+                                    type="file" 
+                                    variant="faded" 
+                                    label="ใส่รูปภาพประกอบ (ไม่เกิน 8MB)" 
+                                    labelPlacement="outside" 
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    isInvalid={!!imageError}
+                                    errorMessage={imageError}
+                                />
+                                {imageError && (
+                                    <p className="text-danger text-sm mt-1">{imageError}</p>
+                                )}
+                            </div>
+                            
                             <Input name="address" isRequired type="text" variant="faded" label="ใส่ที่อยู่ที่เห็นได้ชัด" labelPlacement="outside" placeholder="สถานที่" />
+                            
+                            <StarRating />
+                            
                             <Select
                                 isRequired
                                 classNames={{
@@ -179,7 +284,16 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
                             </Select>
                         </ModalBody>
                         <ModalFooter className="pb-4 w-full">
-                            <Button type="submit" color='success' variant='shadow' className="text-white">เพิ่มโพสต์</Button>
+                            <Button 
+                                type="submit" 
+                                color='success' 
+                                variant='shadow' 
+                                className="text-white"
+                                isLoading={isSubmitting}
+                                isDisabled={!!imageError || isSubmitting}
+                            >
+                                {isSubmitting ? 'กำลังเพิ่มโพสต์...' : 'เพิ่มโพสต์'}
+                            </Button>
                         </ModalFooter>
                     </Form>
                 </ModalContent>
