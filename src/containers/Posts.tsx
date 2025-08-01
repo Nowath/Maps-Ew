@@ -15,7 +15,7 @@ export function Posts( {data} : {data: PostsData[]} ) {
                 {data && data.length > 0 ? (
                     data.map((item) => (
                         <Card key={item.id}
-                        className={`border-2  ${item.Tags[0] === "โหมดสร้างสรรค์" ? `border-green-400`: item.Tags[0] === "โหมดกิจกรรม" ? `border-blue-300`:`border-red-400`}`}>
+                        className={`border-2  ${item.Tags[0] === "โหมดสร้างสรรค์" ? `border-green-400`: item.Tags[0]  === "โหมดกิจกรรม" && item.Tags[1] !== "โหมดระวังภัย" ? `border-blue-300`:`border-red-400`}`}>
                             <CardHeader>
                                 <div className=' flex justify-between w-full items-center '>
                                     <div className='flex gap-2 items-center'>

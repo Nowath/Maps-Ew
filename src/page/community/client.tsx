@@ -44,8 +44,8 @@ export default function Page({ data }: { data: PostsData[] }) {
                 </div>
                 <div className='py-4 flex gap-2 justify-center'>
                     <Chip onClick={() => console.log("Nano")} variant='flat' color='success'>โหมดกิจกรรม</Chip>
-                    <Chip variant='flat' color='warning'>โหมดระวังภัย</Chip>
                     <Chip variant='flat' color='primary'>โหมดสร้างสรรค์</Chip>
+                    <Chip variant='flat' color='danger'>โหมดระวังภัย</Chip>
                 </div>
                 <div className='w-full flex flex-col gap-4'>
                     <Posts data={data || []} />
