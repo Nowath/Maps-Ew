@@ -1,19 +1,14 @@
 'use client'
 
-import React, {useEffect} from 'react'
+import React from 'react'
 import { Input, Chip, Button } from '@heroui/react'
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { Posts } from '@/containers/Posts';
 import { FaPlus } from 'react-icons/fa6';
 import { useModal } from '@/components/modal/action/modal';
 import { AddPosts } from '@/components/modal/ui/AddPosts';
-import { PostsData } from "@/types/posts"
 
 export default function Page() {
-    // const [datas, setDatas] = useState<PostsData[]>()
-    // useEffect(() => {
-    //     setDatas(data)
-    // },[])
     const AddPost = useModal()
     return (
         <div className='w-full h-screen relative'>
