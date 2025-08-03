@@ -12,7 +12,7 @@ export default async function Server() {
     const { posts } = await getPosts()
     return (
         <Suspense fallback={<Loading />}>
-            <Client data={posts || []} />
+            <Client />
         </Suspense>
     )
 }

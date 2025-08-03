@@ -7,20 +7,9 @@ import { Posts } from '@/containers/Posts';
 import { FaPlus } from 'react-icons/fa6';
 import { useModal } from '@/components/modal/action/modal';
 import { AddPosts } from '@/components/modal/ui/AddPosts';
+import { PostsData } from "@/types/posts"
 
-export interface PostsData {
-    id: number
-    created_at: string
-    name: string
-    title: string
-    image: string
-    address: string
-    subAddress: number[]
-    Tags: string[]
-    star: number;
-}
-
-export default function Page({ data }: { data: PostsData[] }) {
+export default function Page() {
     // const [datas, setDatas] = useState<PostsData[]>()
     // useEffect(() => {
     //     setDatas(data)
@@ -48,7 +37,7 @@ export default function Page({ data }: { data: PostsData[] }) {
                     <Chip variant='flat' color='danger'>โหมดระวังภัย</Chip>
                 </div>
                 <div className='w-full flex flex-col gap-4'>
-                    <Posts data={data || []} />
+                    <Posts />
                 </div>
             </div>
         </div>
