@@ -13,12 +13,28 @@ export function BottomBar() {
         router.push(key as string);
     };
 
+    const pathPatterns = {
+        '/': (path: string) => path === '/',
+        '/community': (path: string) => path.includes('/community'),
+        '/chat': (path: string) => path.includes('/chat'),
+        '/setting': (path: string) => path.includes('/setting')
+    };
+
+    const getActiveTab = () => {
+        for (const [tabKey, matcher] of Object.entries(pathPatterns)) {
+            if (matcher(pathname)) {
+                return tabKey;
+            }
+        }
+        return pathname;
+    };
+
     return (
         <>
             <div className={`${style.BottomMenu}`}>
                 <div className='w-[90%]'>
                     <Tabs 
-                        selectedKey={pathname}
+                        selectedKey={getActiveTab()}
                         onSelectionChange={handleSelectionChange}
                         className='' 
                         fullWidth 
