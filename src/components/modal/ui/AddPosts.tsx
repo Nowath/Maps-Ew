@@ -208,7 +208,7 @@ export function AddPosts({ isOpen, onClose }: AddPost) {
                     <Form
                         onSubmit={onSubmit}
                     >
-                        <ModalHeader className="flex justify-center items-center">ยืนยันการกด SOS</ModalHeader>
+                        <ModalHeader className="flex justify-center items-center">เพิ่มโพสต์</ModalHeader>
                         <ModalBody className="w-full flex flex-col">
                             <Input name="text" isRequired type="text" variant="faded" label="กรอกข้อความ" labelPlacement="outside" placeholder="ข้อความ" />
                             
