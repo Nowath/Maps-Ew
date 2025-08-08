@@ -13,75 +13,96 @@ import { getPosts } from '@/page/community/api/posts';
 export function Posts() {
     const [data,setData] = useState<PostsData[]>([])
     const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
+    
     useEffect(() => {
-        setLoading(true)
         const fetchData = async() => {
-            const { posts } = await getPosts()
-            setData(posts || [])
+            setLoading(true)
+            setError(null)
+            try {
+                const response = await getPosts()
+                
+                if (response && response.posts) {
+                    setData(response.posts)
+                } else {
+                    console.log('No posts data in response')
+                    setData([])
+                }
+            } catch (error) {
+                console.error('Error fetching posts:', error)
+                setError('Failed to fetch posts')
+                setData([])
+            } finally {
+                setLoading(false)
+            }
         }
+        
         fetchData();
-        setLoading(false)
 
         return() => {
             setData([])
-            setLoading(false)
+            setError(null)
         }
     },[])
+    
     return (
-            <div>
-                {loading ? (
-                    <div>
-                        <Loading />
-                    </div>) : (
-                    data && data.length > 0 ? (
-                        data.map((item) => (
-                            <Card key={item.id}
-                            className={`border-2  ${item.Tags[0] === "โหมดสร้างสรรค์" ? `border-green-400`: item.Tags[0]  === "โหมดกิจกรรม" && item.Tags[1] !== "โหมดระวังภัย" ? `border-blue-300`:`border-red-400`}`}>
-                                <CardHeader>
-                                    <div className=' flex justify-between w-full items-center '>
-                                        <div className='flex gap-2 items-center'>
-                                            <Avatar showFallback />
-                                            <div className='flex flex-col'>
-                                                <span>{item.name}</span>
-                                                <span className='text-gray-400 text-xs'>{dayjs(item.created_at).format("DD/MM/YYYY")}</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <StarReview star={item.star} />
-                                        </div>
+        <div>
+            {loading ? (
+                <div>
+                    <Loading />
+                </div>
+            ) : error ? (
+                <div className='w-full flex h-50 justify-center items-center text-red-500'>
+                    เกิดข้อผิดพลาด: {error}
+                </div>
+            ) : data && data.length > 0 ? (
+                data.map((item) => (
+                    <Card key={item.id}
+                    className={`border-2 mb-4 ${item.Tags[0] === "โหมดสร้างสรรค์" ? `border-green-400`: item.Tags[0]  === "โหมดกิจกรรม" && item.Tags[1] !== "โหมดระวังภัย" ? `border-blue-300`:`border-red-400`}`}>
+                        <CardHeader>
+                            <div className=' flex justify-between w-full items-center '>
+                                <div className='flex gap-2 items-center'>
+                                    <Avatar showFallback />
+                                    <div className='flex flex-col'>
+                                        <span>{item.name}</span>
+                                        <span className='text-gray-400 text-xs'>{dayjs(item.created_at).format("DD/MM/YYYY")}</span>
                                     </div>
-                                </CardHeader>
-                                <CardBody>
-                                    <div className='flex flex-col gap-1'>
-                                        <div>
-                                            {item.title}
-                                        </div>
-                                        {item.image !== "" && (
-                                            <div className='w-full flex justify-center items-center'>
-                                                <Image src={item.image} alt='postImg' width={450} height={200} className=" object-contain" />
-                                            </div>
-                                        )}
+                                </div>
+                                <div>
+                                    <StarReview star={item.star} />
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardBody>
+                            <div className='flex flex-col gap-1'>
+                                <div>
+                                    {item.title}
+                                </div>
+                                {item.image !== "" && (
+                                    <div className='w-full flex justify-center items-center'>
+                                        <Image src={item.image} alt='postImg' width={450} height={200} className=" object-contain" />
                                     </div>
-                                </CardBody>
-                                <CardFooter>
-                                    <div className='w-full flex justify-between'>
-                                        <div className='flex gap-1 items-center'>
-                                            {item.Tags.map((tag,index) => (
-                                                <Chip key={index} size='sm' variant='flat' color={tag === "โหมดสร้างสรรค์" ? `success`: tag === "โหมดกิจกรรม" ? 'primary' : "danger"}>{tag}</Chip>
-                                            ))}
-                                        </div>
-                                        <div className='flex items-center gap-1'>
-                                            <FaLocationDot color='red' size={20} />
-                                            <span>{item.address}</span>
-                                        </div>
-                                    </div>
-                                </CardFooter>
-                            </Card>
-                        ))
-                    ) : data && data.length === 0 && (
-                        <div className='w-full flex h-50 justify-center items-center'>ไม่มี post</div>
-                    )
-                )}
-            </div>
+                                )}
+                            </div>
+                        </CardBody>
+                        <CardFooter>
+                            <div className='w-full flex justify-between'>
+                                <div className='flex gap-1 items-center'>
+                                    {item.Tags.map((tag,index) => (
+                                        <Chip key={index} size='sm' variant='flat' color={tag === "โหมดสร้างสรรค์" ? `success`: tag === "โหมดกิจกรรม" ? 'primary' : "danger"}>{tag}</Chip>
+                                    ))}
+                                </div>
+                                <div className='flex items-center gap-1'>
+                                    <FaLocationDot color='red' size={20} />
+                                    <span>{item.address}</span>
+                                </div>
+                            </div>
+                        </CardFooter>
+                    </Card>
+                ))
+            ) : (
+                <div className='w-full flex h-50 justify-center items-center'>ไม่มี post</div>
+            )}
+        </div>
     )
 }
