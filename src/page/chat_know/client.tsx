@@ -55,7 +55,7 @@ export default function Page() {
                         <span className='text-3xl'>
                             ข้อควรรู้
                         </span>
-                        <div>
+                        <div className='w-full'>
                             <Accordion variant="splitted">
                                 { AccordionData.map((item, index) => (
                                     <AccordionItem
