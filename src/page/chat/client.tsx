@@ -12,6 +12,10 @@ export default function Page() {
     function RedirectToForm() {
         redirect(`/chat/form`)
     }
+
+    function RedirectToKnow() {
+        redirect(`/chat/know`)
+    }
     return (
         <React.Fragment>
             <div className=' h-screen w-screen overflow-auto flex justify-center '>
@@ -32,7 +36,7 @@ export default function Page() {
                         <span className='text-xl'>เลือกผู้ให้คำปรึกษา</span>
                         <div className='flex gap-1'>
                             <Button onPress={RedirectToForm} variant='shadow' color='warning'>แบบทดสอบ</Button>
-                            <Button variant='shadow' color='success'>ข้อควรรู้</Button>
+                            <Button onPress={RedirectToKnow} variant='shadow' color='success'>ข้อควรรู้</Button>
                         </div>
                     </div>
                     <div className=' pb-20 flex flex-col gap-2'>

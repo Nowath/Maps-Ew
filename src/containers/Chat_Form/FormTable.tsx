@@ -10,21 +10,12 @@ import {
     TableRow,
     TableCell
 } from "@heroui/table";
-
-interface AnswersState {
-    question1: boolean | null;
-    question2: boolean | null;
-    question3: boolean | null;
-    question4: boolean | null;
-    question5: boolean | null;
-    question6: boolean | null;
-    question7: boolean | null;
-    question8: boolean | null;
-    question9: boolean | null;
-    question10: boolean | null;
-}
+import {AnswersState} from "@/types/form"
+import { useRouter } from 'next/navigation'; // Changed from 'next/router' to 'next/navigation'
 
 export function FormTable() {
+
+    const router = useRouter()
 
     const [answers, setAnswers] = useState<AnswersState>({
             question1: null,
@@ -58,19 +49,13 @@ export function FormTable() {
 
         const submissionData = {
             ...answers,
-            timestamp: new Date().toISOString(),
-            submissionId: Date.now()
         };
 
         console.log('Form Submitted:', submissionData);
         console.log('Answers Summary:', answers);
-
-        // ใน environment ปกติจะใช้ localStorage แบบนี้:
         try {
-            const existingData = JSON.parse(localStorage.getItem('formSubmissions') || '[]');
-            existingData.push(submissionData);
-            localStorage.setItem('formSubmissions', JSON.stringify(existingData));
-            console.log('Data saved to localStorage successfully');
+            localStorage.setItem('formSubmissions', JSON.stringify(submissionData));
+            console.log('Data overwritten in localStorage successfully');
         } catch (error) {
             console.error('Error saving to localStorage:', error);
         }
@@ -91,6 +76,7 @@ export function FormTable() {
             question9: null,
             question10: null,
         });
+        router.push('/chat/form/answer')
     };
 
     const data = [

@@ -8,6 +8,7 @@ import { getDoctor } from '@/page/chat/api/doctor';
 import { DoctorInterface } from '@/types/doctor';
 import { Loading } from '@/components/loading/loading';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 
 export function Doctor() {
     const [data,setData] = useState<DoctorInterface[]>([])
